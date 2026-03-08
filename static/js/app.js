@@ -4,6 +4,19 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 let markerLayer = L.layerGroup().addTo(map);
+const apiBaseUrl = (window.API_BASE_URL || '').replace(/\/$/, '');
+
+function buildStationsUrl(query) {
+  if (apiBaseUrl) {
+    const url = new URL(`${apiBaseUrl}/api/stations`);
+    url.search = query.toString();
+    return url.toString();
+  }
+
+  const url = new URL('api/stations', window.location.href);
+  url.search = query.toString();
+  return url.toString();
+}
 
 async function loadStations(lat = null, lon = null) {
   const query = new URLSearchParams();
@@ -13,7 +26,10 @@ async function loadStations(lat = null, lon = null) {
     query.set('radius_km', '15');
   }
 
-  const response = await fetch(`/api/stations?${query.toString()}`);
+  const response = await fetch(buildStationsUrl(query));
+  if (!response.ok) {
+    throw new Error(`API request failed with status ${response.status}`);
+  }
   const data = await response.json();
 
   markerLayer.clearLayers();
@@ -35,7 +51,10 @@ async function loadStations(lat = null, lon = null) {
   document.getElementById('stats').textContent = `${data.count} Ladepunkte gefunden (${data.sources_used.join(' + ')})`;
 }
 
-loadStations();
+loadStations().catch(() => {
+  document.getElementById('stats').textContent =
+    'API nicht erreichbar. Fuer GitHub Pages bitte window.API_BASE_URL setzen.';
+});
 
 document.getElementById('locateBtn').addEventListener('click', () => {
   if (!navigator.geolocation) {
@@ -50,7 +69,10 @@ document.getElementById('locateBtn').addEventListener('click', () => {
       L.circleMarker([latitude, longitude], { radius: 8, color: '#0052a3' })
         .bindPopup('Ihr Standort')
         .addTo(map);
-      loadStations(latitude, longitude);
+      loadStations(latitude, longitude).catch(() => {
+        document.getElementById('stats').textContent =
+          'API nicht erreichbar. Fuer GitHub Pages bitte window.API_BASE_URL setzen.';
+      });
     },
     () => alert('Standort konnte nicht ermittelt werden.'),
     { enableHighAccuracy: true, timeout: 10000 }
