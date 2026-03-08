@@ -1,0 +1,31 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  color: #222;
+}
+
+header,
+.questions,
+.controls {
+  padding: 1rem;
+}
+
+#map {
+  height: 70vh;
+  width: 100%;
+}
+
+.questions {
+  background: #f5f7fb;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+
+button {
+  background: #0067c5;
+  color: #fff;
+  border: 0;
+  padding: 0.6rem 0.9rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
