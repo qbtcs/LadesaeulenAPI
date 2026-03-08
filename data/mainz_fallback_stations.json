@@ -1,0 +1,29 @@
+[
+  {
+    "id": "fallback-1",
+    "name": "Stadtwerke Mainz – Rheinufer",
+    "operator": "Mainzer Stadtwerke",
+    "lat": 49.9981,
+    "lon": 8.2797,
+    "address": "Rheinufer Mainz",
+    "source": "Lokaler Fallback-Datensatz"
+  },
+  {
+    "id": "fallback-2",
+    "name": "EnBW Schnellladepark Mainz",
+    "operator": "EnBW",
+    "lat": 49.9882,
+    "lon": 8.2319,
+    "address": "Mainz Hechtsheim",
+    "source": "Lokaler Fallback-Datensatz"
+  },
+  {
+    "id": "fallback-3",
+    "name": "Shell Recharge Mainz",
+    "operator": "Shell Recharge",
+    "lat": 50.0015,
+    "lon": 8.2571,
+    "address": "Innenstadt Mainz",
+    "source": "Lokaler Fallback-Datensatz"
+  }
+]
